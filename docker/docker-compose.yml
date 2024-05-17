@@ -1,0 +1,16 @@
+services:
+
+  rabbitmq:
+    image: "rabbitmq:3.8.6-management"
+    container_name: rabbitmq-infocal
+    ports:
+      - 5672:5672
+      - 15672:15672
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: Postgres
+      POSTGRES_PASSWORD: Postgres2024!
+      POSTGRES_DB: Tabela_Teste
+    ports:
+      - 5433:5433
