@@ -19,7 +19,8 @@ public class ConsumerMessage {
 
     private final ProductRequestRepository repository;
 
-    @RabbitListener(queues = "q-auth-register-request", ackMode = "AUTO")
+    @RabbitListener(queues = "q-auth-register-request", ackMode = "AUTO", errorHandler =
+            "com.infotech.messagereceiver.exception.ErrorMessageHandler")
     public void startConsumer(Message message) throws IOException {
         ProductRequest productRequest = fromJson(message, ProductRequest.class);
         ProductRequestEntity productRequestEntity = new ProductRequestEntity();

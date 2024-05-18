@@ -10,6 +10,12 @@ import org.springframework.util.ErrorHandler;
 @Component
 public class ErrorMessageHandler implements ErrorHandler {
 
+    /**
+     * Tratamento para o caso de erro no envio, gera uma mensagem com os detalhes da exceção original e a encapsula em
+     * uma exceção personalizada. Obs.: Essa exceção deve ser tratada de acordo com o seu código
+     * @param t exceção/erro original
+     */
+
     @Override
     public void handleError(Throwable t) {
 
@@ -18,9 +24,8 @@ public class ErrorMessageHandler implements ErrorHandler {
         String failedExchange = failedMessage.getMessageProperties().getReceivedExchange();
         String messageBody = new String(((ListenerExecutionFailedException) t).getFailedMessage().getBody());
 
-        log.error("Falha no envio da mensagem na fila {} com a exchange {} com o seguinte body {}", consumerQueue, failedExchange, messageBody);
-
-        log.error(t.getLocalizedMessage());
-
+        String message = String.format("Falha no envio da mensagem na fila %s com a exchange %s com o seguinte body %s"
+                + "%n%s", consumerQueue, failedExchange, messageBody, t.getLocalizedMessage());
+        throw new MessageFailedException(message);
     }
 }
